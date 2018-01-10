@@ -44,6 +44,9 @@ for root,dirs,files in os.walk('../xml/0/0'):
 
 with open('output.csv', 'w', encoding='utf8') as csvfile:
     w = csv.writer(csvfile, delimiter=',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC )
+    headerwriter = csv.DictWriter(open('output.csv','wt'), ['filename', 'title', 'noteData', 'propertyData', 'mediaType1', 'mediaTitle1', 'mediaData1', 'dataSourceRecord1', 'mediaType2', 'mediaTitle2', 'mediaData2', 'dataSourceRecord2'])
+    headerwriter.writeheader()
+
     for line in data:
         w.writerow(line)
 
