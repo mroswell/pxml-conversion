@@ -12,7 +12,6 @@ def process(filepath):
 
     tree = et.parse(filepath)
     root = tree.getroot()
-    # ret.append('' if root.find('.//t:propertyComponent[@type="TITLE"]', ns) == None else root.find('.//t:propertyComponent[@type="TITLE"][1]', ns).text)
     ret.append('' if root.find('.//t:propertyComponent[@type="TITLE"]/t:propertyData', ns) == None else root.find('.//t:propertyComponent[@type="TITLE"]/t:propertyData', ns).text)
     ret.append('' if root.find('.//t:noteData', ns) == None else root.find('.//t:noteData', ns).text)
     ret.append('' if root.find('.//t:propertyData', ns) == None else root.find('.//t:propertyData', ns).text)
