@@ -21,7 +21,7 @@ def process(filepath):
     for media in medias:
         ret.append('' if media.attrib['mediaType'] == None else media.attrib['mediaType'])
         ret.append('' if media.find('./t:mediaTitle', ns) == None else media.find('./t:mediaTitle', ns).text)
-#        ret.append('' if media.find('./t:mediaData', ns) == None else media.find('./t:mediaData', ns).text)
+        ret.append('' if media.find('./t:mediaData', ns) == None else media.find('./t:mediaData', ns).text)
         dataSourceRecordNode = media.find('.//t:dataSourceRecord', ns)
         if dataSourceRecordNode != None:
             ret.append(et.tostring(dataSourceRecordNode))
