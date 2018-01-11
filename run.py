@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#  coding: utf8
+
 import os, base64
 import xml.etree.ElementTree as et
 import csv
@@ -22,6 +25,7 @@ def process(filepath):
         text = '' if media.find('./p:mediaData', ns) == None else media.find('./p:mediaData', ns).text
         ret.append(text)
         text_decoded = base64.b64decode(text)
+        text_decoded = text_decoded.decode('utf8')
         ret.append(text_decoded)
         dataSourceRecordNode = media.find('.//p:dataSourceRecord', ns)
         if dataSourceRecordNode != None:
