@@ -16,7 +16,7 @@ def process(filepath):
     ret.append('' if root.find('.//t:noteData', ns) == None else root.find('.//t:noteData', ns).text)
     ret.append('' if root.find('.//t:propertyData', ns) == None else root.find('.//t:propertyData', ns).text)
 
-    medias = root.findall('.//t:media', ns)
+    medias = root.findall('.//t:media[@mediaType="Text File"]', ns)
     for media in medias:
         ret.append('' if media.attrib['mediaType'] == None else media.attrib['mediaType'])
         ret.append('' if media.find('./t:mediaTitle', ns) == None else media.find('./t:mediaTitle', ns).text)
@@ -28,10 +28,9 @@ def process(filepath):
             ret.append('')
     return ret
 
-
 data = []
     
-for root,dirs,files in os.walk('../xml/0/0'):
+for root,dirs,files in os.walk('../xml'):
     for file in files:
         path = root + '/' + file
         if path.endswith('.xml'):
@@ -43,7 +42,7 @@ for root,dirs,files in os.walk('../xml/0/0'):
 
 with open('output.csv', 'w', encoding='utf8') as csvfile:
     w = csv.writer(csvfile, delimiter=',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC )
-    headerwriter = csv.DictWriter(open('output.csv','wt'), ['filename', 'title', 'noteData', 'propertyData', 'mediaType1', 'mediaTitle1', 'mediaData1', 'dataSourceRecord1', 'mediaType2', 'mediaTitle2', 'mediaData2', 'dataSourceRecord2'])
+    headerwriter = csv.DictWriter(open('output.csv','wt'), ['filename', 'title', 'noteData', 'propertyData', 'mediaType', 'mediaTitle', 'mediaData', 'dataSourceRecord'])
     headerwriter.writeheader()
 
     for line in data:
