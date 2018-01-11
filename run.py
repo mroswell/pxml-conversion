@@ -3,7 +3,7 @@ import xml.etree.ElementTree as et
 
 import csv
 
-ns = {'t': 'http://www.palantirtech.com/pg/schema/import/'}
+ns = {'p': 'http://www.palantirtech.com/pg/schema/import/'}
 count = 0
 
 def process(filepath):
@@ -12,16 +12,16 @@ def process(filepath):
 
     tree = et.parse(filepath)
     root = tree.getroot()
-    ret.append('' if root.find('.//t:propertyComponent[@type="TITLE"]/t:propertyData', ns) == None else root.find('.//t:propertyComponent[@type="TITLE"]/t:propertyData', ns).text)
-    ret.append('' if root.find('.//t:noteData', ns) == None else root.find('.//t:noteData', ns).text)
-    ret.append('' if root.find('.//t:propertyData', ns) == None else root.find('.//t:propertyData', ns).text)
+    ret.append('' if root.find('.//p:propertyComponent[@type="TITLE"]/p:propertyData', ns) == None else root.find('.//p:propertyComponent[@type="TITLE"]/p:propertyData', ns).text)
+    ret.append('' if root.find('.//p:noteData', ns) == None else root.find('.//p:noteData', ns).text)
+    ret.append('' if root.find('.//p:propertyData', ns) == None else root.find('.//p:propertyData', ns).text)
 
-    medias = root.findall('.//t:media[@mediaType="Text File"]', ns)
+    medias = root.findall('.//p:media[@mediaType="Text File"]', ns)
     for media in medias:
         ret.append('' if media.attrib['mediaType'] == None else media.attrib['mediaType'])
-        ret.append('' if media.find('./t:mediaTitle', ns) == None else media.find('./t:mediaTitle', ns).text)
-        ret.append('' if media.find('./t:mediaData', ns) == None else media.find('./t:mediaData', ns).text)
-        dataSourceRecordNode = media.find('.//t:dataSourceRecord', ns)
+        ret.append('' if media.find('./p:mediaTitle', ns) == None else media.find('./p:mediaTitle', ns).text)
+        ret.append('' if media.find('./p:mediaData', ns) == None else media.find('./p:mediaData', ns).text)
+        dataSourceRecordNode = media.find('.//p:dataSourceRecord', ns)
         if dataSourceRecordNode != None:
             ret.append(et.tostring(dataSourceRecordNode))
         else:
