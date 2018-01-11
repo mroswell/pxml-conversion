@@ -1,6 +1,5 @@
 import os, base64
 import xml.etree.ElementTree as et
-
 import csv
 
 ns = {'p': 'http://www.palantirtech.com/pg/schema/import/'}
@@ -20,7 +19,10 @@ def process(filepath):
     for media in medias:
         ret.append('' if media.attrib['mediaType'] == None else media.attrib['mediaType'])
         ret.append('' if media.find('./p:mediaTitle', ns) == None else media.find('./p:mediaTitle', ns).text)
-        ret.append('' if media.find('./p:mediaData', ns) == None else media.find('./p:mediaData', ns).text)
+        text = '' if media.find('./p:mediaData', ns) == None else media.find('./p:mediaData', ns).text
+        ret.append(text)
+        text_decoded = base64.b64decode(text)
+        ret.append(text_decoded)
         dataSourceRecordNode = media.find('.//p:dataSourceRecord', ns)
         if dataSourceRecordNode != None:
             ret.append(et.tostring(dataSourceRecordNode))
@@ -40,9 +42,9 @@ for root,dirs,files in os.walk('../xml'):
             count += 1
             print (ret)
 
-with open('output.csv', 'w', encoding='utf8') as csvfile:
+with open('output.csv', 'w', encoding='utf-8') as csvfile:
     w = csv.writer(csvfile, delimiter=',', quotechar = '"', quoting=csv.QUOTE_NONNUMERIC )
-    headerwriter = csv.DictWriter(open('output.csv','wt'), ['filename', 'title', 'noteData', 'propertyData', 'mediaType', 'mediaTitle', 'mediaData', 'dataSourceRecord'])
+    headerwriter = csv.DictWriter(open('output.csv','wt'), ['filename', 'title', 'noteData', 'propertyData', 'mediaType', 'mediaTitle', 'mediaData', 'mediaData_decoded','dataSourceRecord'])
     headerwriter.writeheader()
 
     for line in data:
