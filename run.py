@@ -39,7 +39,8 @@ data = []
 for root,dirs,files in os.walk('../xml'):
     for file in files:
         path = root + '/' + file
-        if path.endswith('.xml'):
+        # Remove extraneous xml files created by PyCharm IDE
+        if path.endswith('.xml') and path.find('.idea') == -1:
             print (path)
             ret = process(path)
             data.append(ret)
